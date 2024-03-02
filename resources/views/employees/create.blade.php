@@ -1,37 +1,62 @@
-<!-- resources/views/employees/create.blade.php -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Employee</title>
+    <!-- Include Bootstrap CSS link -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
 
-@extends('layouts.app')
+<form action="{{ route('employees.store') }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    @method('POST')
 
-@section('content')
-    <div class="container">
-        <h2>Add Employee</h2>
-        <form action="{{ route('employees.store') }}" method="POST">
-            @csrf
-            <div class="mb-3">
-                <label for="fname" class="form-label">First Name</label>
-                <input type="text" class="form-control" id="fname" name="fname" required>
-            </div>
-            <div class="mb-3">
-                <label for="lname" class="form-label">Last Name</label>
-                <input type="text" class="form-control" id="lname" name="lname" required>
-            </div>
-            <div class="mb-3">
-                <label for="address" class="form-label">Address</label>
-                <textarea class="form-control" id="address" name="address" required></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="phoneNum" class="form-label">Phone Number</label>
-                <input type="text" class="form-control" id="phoneNum" name="phoneNum" required>
-            </div>
-            <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input type="text" class="form-control" id="username" name="username" required>
-            </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" name="password" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Add Employee</button>
-        </form>
+    <div class="form-group">
+        <label for="fname">First Name:</label>
+        <input type="text" class="form-control" id="fname" name="fname" required>
     </div>
-@endsection
+
+    <div class="form-group">
+        <label for="lname">Last Name:</label>
+        <input type="text" class="form-control" id="lname" name="lname" required>
+    </div>
+
+    <div class="form-group">
+        <label for="phoneNum">Phone Number:</label>
+        <input type="text" class="form-control" id="phoneNum" name="phoneNum" required>
+    </div>
+    <div class="form-group">
+        <label for="address">Address:</label>
+        <input type="text" class="form-control" id="address" name="address" required>
+    </div>
+
+    <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" class="form-control" id="username" name="username" required>
+    </div>
+
+    <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" class="form-control" id="password" name="password" required>
+    </div>
+
+    <div class="form-group">
+        <label for="images">Profile Image:</label>
+        <input type="file" class="form-control-file" id="images" name="images">
+    </div>
+
+    <button type="submit" class="btn btn-success">Add Employee</button>
+</form>
+
+
+
+<!-- Include Bootstrap JS and Popper.js -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
+    
