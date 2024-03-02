@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Employee;
 use Illuminate\Support\Facades\Storage;
+use DB;
+use File;
 
 class EmployeeController extends Controller
 {
@@ -65,6 +67,12 @@ class EmployeeController extends Controller
 
     public function update(Request $request, $id)
     {
+        $query = DB::table('employees')
+        ->select('employees.images')
+        ->where('employees.id', '=', $id)
+        ->first();
+
+        // dd($query);
        
        $request->validate([
         'fname' => 'required',
@@ -75,7 +83,10 @@ class EmployeeController extends Controller
         'password' => 'required',
         'images' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
     ]);
-
+    $directory = public_path('uploads');
+    $filePath = $directory . '/' . $query->images;
+    
+    
      // Handle image upload
      $imageName = null; // Default value
     
@@ -85,10 +96,11 @@ class EmployeeController extends Controller
          $image->move(public_path('uploads'), $fileName);
          $filepath= public_path('uploads/' . $fileName);
          $imageName = $fileName; // Adjust the path accordingly
+         File::delete($filePath);
      }
      else {
-        $employee = Employee::findOrFail($id);
-        $imageName = $employee->images; // Keep the existing image if no new image is provided
+        
+        $imageName = $query->images; // Keep the existing image if no new image is provided
     }
      // Update Employee
      $employee = Employee::findOrFail($id);
@@ -107,6 +119,16 @@ class EmployeeController extends Controller
 
     public function destroy($id)
     {
+        $query = DB::table('employees')
+        ->select('employees.images')
+        ->where('employees.id', '=', $id)
+        ->first();
+
+        $directory = public_path('uploads');
+    $filePath = $directory . '/' . $query->images;
+ //    dd($filePath);
+    File::delete($filePath);
+
         $employee = Employee::findOrFail($id);
         $employee->delete();
         return redirect()->route('employees.index')->with('success', 'Employee deleted successfully!');

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Manager;
 use Illuminate\Support\Facades\Storage;
+use DB;
+use File;
 
 class ManagerController extends Controller
 {
@@ -66,7 +68,14 @@ class ManagerController extends Controller
 
     public function update(Request $request, $id)
     {
+        $query = DB::table('managers')
+        ->select('managers.images')
+        ->where('managers.id', '=', $id)
+        ->first();
+
+        // dd($query);
         // Validation
+
         $request->validate([
             'fname' => 'required',
             'lname' => 'required',
@@ -76,7 +85,10 @@ class ManagerController extends Controller
             'password' => 'required',
             'images' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-    
+        $directory = public_path('uploads');
+        $filePath = $directory . '/' . $query->images;
+        
+
          // Handle image upload
          $imageName = null; // Default value
     
@@ -87,10 +99,11 @@ class ManagerController extends Controller
              $image->move(public_path('uploads'), $fileName);
              $filepath= public_path('uploads/' . $fileName);
              $imageName = $fileName; // Adjust the path accordingly  
+             File::delete($filePath);
          }
         else {
-            $manager = Manager::findOrFail($id);
-            $imageName = $manager->images; // Keep the existing image if no new image is provided
+            
+            $imageName = $query->images; // Keep the existing image if no new image is provided
         }
     
         // Update manager
@@ -110,6 +123,15 @@ class ManagerController extends Controller
 
     public function destroy($id)
     {
+        $query = DB::table('managers')
+        ->select('managers.images')
+        ->where('managers.id', '=', $id)
+        ->first();
+
+        $directory = public_path('uploads');
+            $filePath = $directory . '/' . $query->images;
+            File::delete($filePath);
+
         $manager = Manager::findOrFail($id);
         $manager->delete();
         return redirect()->route('managers.index')->with('success', 'Manager deleted successfully.');

@@ -51,11 +51,12 @@
         <label for="images">Profile Image:</label>
         <input type="file" class="form-control-file" id="images" name="images">
         @if($manager->images)
-        <img src="{{ asset('uploads/' . $manager->images) }}" alt="Profile Image" style="max-width: 50px;">
+            <img src="{{ asset('uploads/' . $manager->images) }}" alt="Profile Image" style="max-width: 50px;">
         @else
-                No Image
+            No Image
         @endif
     </div>
+
 
     <button type="submit" class="btn btn-primary">Update Manager</button>
 </form>

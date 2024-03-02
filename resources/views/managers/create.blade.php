@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<form action="{{ route('managers.store') }}" method="POST" enctype="multipart/form-data">
+<form action="{{ route('managers.store', ) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('POST')
 
@@ -39,9 +39,13 @@
 
     <div class="form-group">
         <label for="password">Password:</label>
-        <input type="password" class="form-control" id="password" name="password" required>
+        <div class="input-group">
+            <input type="password" class="form-control" id="password" name="password" required>
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="showPasswordButton" onclick="togglePassword()">Show</button>
+            </div>
+        </div>
     </div>
-
     <div class="form-group">
         <label for="images">Profile Image:</label>
         <input type="file" class="form-control-file" id="images" name="images">
@@ -56,6 +60,17 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    function togglePassword() {
+        var passwordInput = document.getElementById("password");
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+        } else {
+            passwordInput.type = "password";
+        }
+    }
+</script>
 
 </body>
 </html>
