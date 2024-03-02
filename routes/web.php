@@ -6,6 +6,7 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\CustomerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,7 @@ Route::get('/prodServ', [ProdServController::class, 'index'])->name('ProdServ.in
 Route::get('/appointment', [AppointmentController::class, 'index'])->name('Appointments.index');
 Route::resource('managers', ManagerController::class);
 Route::resource('employees', EmployeeController::class);
+Route::resource('customers', CustomerController::class);
 
 Route::prefix('admin')->group(function () {
     Route::get('/',[ServiceController::class, 'index'] )->name('services.index');
